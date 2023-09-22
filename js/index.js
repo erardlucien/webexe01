@@ -95,7 +95,7 @@ function showOrHideMenu() {
     subMenuContainer.classList.replace('sub-menu-container-expanded', 'sub-menu-container-reduced');
     servicesLinks.classList.remove('services-links-opened');
     servicesLinks.classList.add('closed');
-    navBtn.classList.remove('nav-link-clicked');
+    navBtn.classList.remove('nav-btn-clicked');
     menu.classList.remove('opened-menu');
     mainNavList.classList.add('main-nav-list-closed');
     mainNavList.classList.remove('main-nav-list-opened');
@@ -141,6 +141,7 @@ menu.addEventListener('click', () => {
             () => {
                 servicesLinks.classList.add('closed');
                 mainNavList.classList.add('closed');
+                navBtn.classList.remove('nav-btn-clicked');
             }, 500
         );
     } else {
