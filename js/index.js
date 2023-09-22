@@ -164,6 +164,7 @@ navLinks.forEach( (element) => {
 
         servicesLinks.classList.remove('services-links-opened');
         servicesLinks.classList.add('closed');
+        navBtn.classList.remove('nav-btn-clicked');
         subMenuContainer.classList.replace('sub-menu-container-expanded', 'sub-menu-container-reduced');
         navSubLinks.forEach((element) => {
             makeUnfocusable(element);
