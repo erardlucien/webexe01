@@ -139,6 +139,7 @@ menu.addEventListener('click', () => {
     if(!menu.classList.contains('opened-menu')) {
         setTimeout(
             () => {
+                servicesLinks.classList.remove('services-links-opened');
                 servicesLinks.classList.add('closed');
                 mainNavList.classList.add('closed');
                 navBtn.classList.remove('nav-btn-clicked');
