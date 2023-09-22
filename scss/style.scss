@@ -65,6 +65,8 @@ $arrow-size: 1.3rem;
     @media screen and (min-width: 64em) {
        display: flex;
        justify-content: space-between;
+       padding: 0 1.2rem;
+       align-items: center;
        background-color: $clr-primary;
     }
 
@@ -111,10 +113,6 @@ $arrow-size: 1.3rem;
     clip-path: circle(50%);
     overflow: hidden;
     align-self: flex-start;
-
-    @media screen and (min-width: 64em) {
-        margin: $margin-offsets;
-    }
 
     &::before {
         content: '';
@@ -166,7 +164,7 @@ $arrow-size: 1.3rem;
     align-self: flex-end;
     overflow: hidden;
     transition: $transition;
-    clip-path: circle(50%);
+    background-color: transparent;
     position: relative;
 
     @media screen and (min-width: 64em) {
@@ -183,7 +181,7 @@ $arrow-size: 1.3rem;
     left: 50%;
     width: 80%;
     height: 10%;
-    background-color: $clr-ternary;
+    background-color: $clr-neutral;
     transition: $transition;
 }
 
@@ -240,7 +238,6 @@ $arrow-size: 1.3rem;
     position: relative;
     overflow: hidden;
     @media screen and (min-width: 64em) {
-        margin: $margin-offsets;
         
         &:has(.services-links-opened) {
             overflow: initial;
@@ -352,10 +349,15 @@ $arrow-size: 1.3rem;
         outline: 0.1rem solid transparent;
         background-color: $clr-secondary;
         color: $clr-primary;
-        border: 0.3rem solid $clr-primary;
+        border: 0.1rem solid $clr-ternary;
     }
 
-    @media screen and (hover: hover) {
+    @media screen and (hover: hover) {   
+        
+        &:focus:hover {
+            border: 0.2rem solid $clr-secondary;
+        }
+        
         &:hover {
             color: $clr-secondary;
             background-color: $clr-ternary;
@@ -427,6 +429,13 @@ $arrow-size: 1.3rem;
     margin: 0.5rem 1rem;
     border-radius: 5.2rem;
     background-color: $clr-secondary;
+
+    @media screen and (hover: hover) {   
+        
+        &:focus:hover {
+            border: 0.2rem solid $clr-primary;
+        }
+    }
 }
 
 // nav-link-btn-clicked
