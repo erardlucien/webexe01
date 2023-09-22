@@ -91,7 +91,6 @@ $arrow-size: 1.3rem;
     height: $menu-logo-size;
     width: $menu-logo-size;
     background-color: $clr-neutral;
-    margin: $margin-offsets;
 }
 
 // set-center
@@ -112,6 +111,10 @@ $arrow-size: 1.3rem;
     clip-path: circle(50%);
     overflow: hidden;
     align-self: flex-start;
+
+    @media screen and (min-width: 64em) {
+        margin: $margin-offsets;
+    }
 
     &::before {
         content: '';
@@ -562,7 +565,7 @@ $arrow-size: 1.3rem;
  .top-button {
     $button-size: 5rem;
     position: fixed;
-    bottom: 14rem;
+    bottom: 4rem;
     right: 2rem;
     display: flex;
     flex-direction: column;
