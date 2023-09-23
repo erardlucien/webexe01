@@ -17,7 +17,7 @@ let slides = document.querySelectorAll('.slide');
 let internalLinks = document.querySelectorAll('.internal-link');
 let linkedElements = document.querySelectorAll('.linked-element');
 let topButton = document.querySelector('.top-button');
-let stopButton = document.querySelector('.stop-button');
+let swiper = document.querySelector('.swiper');
 let intervald = 15000;
 let timeout;
 let timeout2;
@@ -343,19 +343,7 @@ function getTouchend(e) {
     swipe();
 }
 
-slidesContainer.addEventListener('touchstart', getTouchstart);
-slidesContainer.addEventListener('touchend', getTouchend);
+swiper.addEventListener('touchstart', getTouchstart);
+swiper.addEventListener('touchend', getTouchend);
 
 timeout2 = setTimeout(loop, 15000);
-
-stopButton.addEventListener('click', () => {
-    if(!isStopped) {
-        slidesContainer.removeEventListener('touchstart', getTouchstart);
-        slidesContainer.removeEventListener('touchend', getTouchend);
-        isStopped = true;
-    } else {
-        slidesContainer.addEventListener('touchstart', getTouchstart);
-        slidesContainer.addEventListener('touchend', getTouchend);
-        isStopped = false;
-    }
-});
