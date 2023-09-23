@@ -522,8 +522,10 @@ $arrow-size: 1.3rem;
     opacity: 0.3;
     border: 0;
     z-index: 98;
-    padding: 1.2rem;
     border-radius: 50%;
+    white-space: nowrap;
+    text-align: center;
+    vertical-align: center;
 
     &:focus {
         opacity: 1;
