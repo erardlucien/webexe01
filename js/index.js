@@ -17,43 +17,82 @@ let slides = document.querySelectorAll('.slide');
 let internalLinks = document.querySelectorAll('.internal-link');
 let linkedElements = document.querySelectorAll('.linked-element');
 let topButton = document.querySelector('.top-button');
-let intervald;
+let intervald = 15000;
 let timeout;
+let timeout2;
 const MAX = slides.length;
 let indexIndicator = 0;
 let indexSlide = 0;
+let isGoingLeft = false;
+let isGoingRight = false;
 
 servicesLinks.classList.add('services-links-closed');
 subMenuContainer.classList.add('sub-menu-container-reduced');
+indicators[indexIndicator].classList.add('indicator-actived');
 
 function activeIndicator() {
 
-    if( indexIndicator > 0 ) {
+    console.log('IdxI 1: ' + indexIndicator);
+    if( indexIndicator === MAX - 1) {
+        indexIndicator = 0;
+    }
+
+    if(indexIndicator > 0 && indexIndicator < MAX) {
         indicators[indexIndicator - 1].classList.remove('indicator-actived');
     }
 
-    indicators[indexIndicator].classList.add('indicator-actived');
-
-    ++indexIndicator;
-
-    if( indexIndicator === MAX) {
-        indexIndicator = 0;
+    if(indexIndicator >= 0 && indexIndicator < MAX) {
         indicators[indexIndicator].classList.add('indicator-actived');
     }
+    console.log('IdxI 2: ' + indexIndicator);
 }
 
-function sliding() {
+function slidingRight() {
 
-    if( indexSlide === MAX) {
-        indexSlide = 0;
+    if( isGoingRight ) {
+        console.log('MAX - 1 R');
+        indexSlide = MAX - 1;
         slidesContainer.style.transitionDuration = '0ms';
         slidesContainer.style.transform = `translateX(${ -indexSlide * ( 100 / MAX ) }%)`;
-    } else {
+        isGoingRight = false;
+
+        setTimeout(() => {
+            deactiveIndicator();
+            slidesContainer.style.transitionDuration = '2s';
+            console.log('Before Timeout' + indexSlide);
+            slidesContainer.style.transform = `translateX(${ -(--indexSlide) * ( 100 / MAX ) }%)`;
+            indexIndicator = indexSlide;
+            activeIndicator();
+            console.log('After Timeout' + indexSlide);
+        }, 60);
+    } else  {
         slidesContainer.style.transitionDuration = '2s';
         slidesContainer.style.transform = `translateX(${ -indexSlide * ( 100 / MAX ) }%)`;
     }
+}
 
-    ++indexSlide;
+function slidingLeft() {
+
+    if( isGoingLeft ) {
+        console.log('MAX - 1 L');
+        indexSlide = 0;
+        slidesContainer.style.transitionDuration = '0ms';
+        slidesContainer.style.transform = `translateX(${ -indexSlide * ( 100 / MAX ) }%)`;
+        isGoingLeft = false;
+
+        setTimeout(() => {
+            deactiveIndicator();
+            slidesContainer.style.transitionDuration = '2s';
+            console.log('Before Timeout' + indexSlide);
+            slidesContainer.style.transform = `translateX(${ -(++indexSlide) * ( 100 / MAX ) }%)`;
+            indexIndicator = indexSlide;
+            activeIndicator();
+            console.log('After Timeout' + indexSlide);
+        }, 60);
+    } else  {
+        slidesContainer.style.transitionDuration = '2s';
+        slidesContainer.style.transform = `translateX(${ -indexSlide * ( 100 / MAX ) }%)`;
+    }
 
 }
 
@@ -65,11 +104,21 @@ function deactiveIndicator() {
     }
 }
 
-let loop = function active() {
-    sliding();
+function animationLeft() {
+    slidingLeft();
     activeIndicator();
-    timeout = setTimeout(active, 15000);
 };
+
+
+function animationRight() {
+    slidingRight();
+    activeIndicator();
+};
+
+let loop = function incrementIndex() {
+    goLeft();
+    timeout = setTimeout(incrementIndex, 15000);
+}
 
 function makeFocusable(element) {
     element.tabIndex = 0;
@@ -186,12 +235,18 @@ navBtnKeysDown.forEach( (element) => {
 
 for(let i = 0; i < indicators.length; ++i) {
     indicators[i].addEventListener('click', () => {
-        deactiveIndicator();
         clearTimeout(timeout);
+        if(timeout2 !== undefined || timeout2 !== null) {
+            clearTimeout(timeout2);
+        }
+
+        deactiveIndicator();
 
         indexIndicator = indexSlide = i;
 
-        loop();
+        animationLeft();
+
+        timeout2 = setTimeout(loop, 15000);
     });
 }
 
@@ -224,4 +279,78 @@ topButton.addEventListener('keydown', (event) => {
 
 showOrHideMenu();
 window.addEventListener('resize', showOrHideMenu);
-loop();
+
+function goLeft() {
+    console.log('Links');
+    deactiveIndicator();
+
+    if( indexSlide === 0 || indexSlide === (MAX - 1) ) {
+        isGoingLeft = true;
+        animationLeft();
+        activeIndicator();
+        return;
+    }
+
+    if( indexSlide >= 0 && indexSlide < (MAX - 1) ){
+        ++indexIndicator;
+        indexSlide = indexIndicator;
+        animationLeft();
+        activeIndicator();
+        return;
+    }
+}
+
+function goRight() {
+    console.log('Rechts');
+    deactiveIndicator();
+
+    if( indexSlide === 0 || indexSlide === (MAX - 1) ) {
+        isGoingRight = true;
+        animationRight();
+        activeIndicator();
+        return;
+    }
+
+    if( indexSlide > 0 && indexSlide < (MAX - 1) ) {
+        --indexIndicator;
+        indexSlide = indexIndicator;
+        animationRight();
+        activeIndicator();
+        return;
+    }
+
+}
+
+function swipe() {
+    clearTimeout(timeout);
+    if(timeout2 !== undefined || timeout2 !== null) {
+        clearTimeout(timeout2);
+    }
+
+    if(touchendX < touchstartX) {
+        goLeft();
+    }
+
+    if(touchendX > touchstartX) {
+        goRight();
+    }
+
+    timeout2 = setTimeout(loop, 15000);
+}
+
+let touchstartX = 0;
+let touchendX = 0;
+slidesContainer.addEventListener('touchstart',
+(e) => {
+    touchstartX = e.changedTouches[0].screenX;
+}
+);
+
+timeout2 = setTimeout(loop, 15000);
+
+slidesContainer.addEventListener('touchend',
+(e) => {
+    touchendX = e.changedTouches[0].screenX;
+    swipe();
+}
+);
