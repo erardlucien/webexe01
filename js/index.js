@@ -331,15 +331,27 @@ let touchstartX = 0;
 let touchendX = 0;
 
 function getTouchstart(e) {
-    touchstartX = e.screenX;
+    touchstartX = e.changedTouches[0].screenX;
 }
 
 function getTouchend(e) {
-    touchendX = e.screenX;
+    touchendX = e.changedTouches[0].screenX;
     swipe();
 }
 
-slidesContainer.addEventListener('mousedown', getTouchstart);
-slidesContainer.addEventListener('mouseup', getTouchend);
+slidesContainer.addEventListener('touchstart', getTouchstart);
+slidesContainer.addEventListener('touchend', getTouchend);
 
 timeout2 = setTimeout(loop, 15000);
+
+window.addEventListener('scroll', () => {
+    if(window.scrollY) {
+        slidesContainer.removeEventListener('touchstart', getTouchstart);
+        slidesContainer.removeEventListener('touchend', getTouchend);
+
+        setTimeout( () => {
+            slidesContainer.addEventListener('touchstart', getTouchstart);
+            slidesContainer.addEventListener('touchend', getTouchend);
+        }, 1000);
+    }
+});
