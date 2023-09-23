@@ -17,6 +17,7 @@ let slides = document.querySelectorAll('.slide');
 let internalLinks = document.querySelectorAll('.internal-link');
 let linkedElements = document.querySelectorAll('.linked-element');
 let topButton = document.querySelector('.top-button');
+let stopButton = document.querySelector('.stop-button');
 let intervald = 15000;
 let timeout;
 let timeout2;
@@ -25,6 +26,7 @@ let indexIndicator = 0;
 let indexSlide = 0;
 let isGoingLeft = false;
 let isGoingRight = false;
+let isStopped = false;
 
 servicesLinks.classList.add('services-links-closed');
 subMenuContainer.classList.add('sub-menu-container-reduced');
@@ -331,10 +333,12 @@ let touchstartX = 0;
 let touchendX = 0;
 
 function getTouchstart(e) {
+    e.preventDefault();
     touchstartX = e.changedTouches[0].screenX;
 }
 
 function getTouchend(e) {
+    e.preventDefault();
     touchendX = e.changedTouches[0].screenX;
     swipe();
 }
@@ -344,14 +348,14 @@ slidesContainer.addEventListener('touchend', getTouchend);
 
 timeout2 = setTimeout(loop, 15000);
 
-window.addEventListener('scroll', () => {
-    if(window.scrollY) {
+stopButton.addEventListener('click', () => {
+    if(!isStopped) {
         slidesContainer.removeEventListener('touchstart', getTouchstart);
         slidesContainer.removeEventListener('touchend', getTouchend);
-
-        setTimeout( () => {
-            slidesContainer.addEventListener('touchstart', getTouchstart);
-            slidesContainer.addEventListener('touchend', getTouchend);
-        }, 1000);
+        isStopped = true;
+    } else {
+        slidesContainer.addEventListener('touchstart', getTouchstart);
+        slidesContainer.addEventListener('touchend', getTouchend);
+        isStopped = false;
     }
 });

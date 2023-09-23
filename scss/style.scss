@@ -450,6 +450,7 @@ $arrow-size: 1.3rem;
 .slider {
     overflow: hidden;
     height: fit-content;
+    position: relative;
     background-color: $clr-neutral;
 }
 
@@ -507,6 +508,32 @@ $arrow-size: 1.3rem;
 .indicator-actived {
     background-color: $clr-ternary;
 }
+
+// stop-button
+
+.stop-button {
+    top: 50%;
+    left: 50%;
+    @extend %set-center;
+    width: 5.2rem;
+    height: 5.2rem;
+    color: $clr-neutral;
+    background-color: $grey;
+    opacity: 0.3;
+    border: 0;
+    z-index: 98;
+    padding: 1.2rem;
+    border-radius: 50%;
+
+    &:focus {
+        opacity: 1;
+    }
+
+    &:active {
+        background-color: $clr-neutral;
+        color: $clr-ternary;
+    }
+ }
 
  // sliding
 
