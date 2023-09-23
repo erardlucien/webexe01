@@ -31,8 +31,6 @@ subMenuContainer.classList.add('sub-menu-container-reduced');
 indicators[indexIndicator].classList.add('indicator-actived');
 
 function activeIndicator() {
-
-    console.log('IdxI 1: ' + indexIndicator);
     if( indexIndicator === MAX - 1) {
         indexIndicator = 0;
     }
@@ -44,13 +42,11 @@ function activeIndicator() {
     if(indexIndicator >= 0 && indexIndicator < MAX) {
         indicators[indexIndicator].classList.add('indicator-actived');
     }
-    console.log('IdxI 2: ' + indexIndicator);
 }
 
 function slidingRight() {
 
     if( isGoingRight ) {
-        console.log('MAX - 1 R');
         indexSlide = MAX - 1;
         slidesContainer.style.transitionDuration = '0ms';
         slidesContainer.style.transform = `translateX(${ -indexSlide * ( 100 / MAX ) }%)`;
@@ -59,11 +55,9 @@ function slidingRight() {
         setTimeout(() => {
             deactiveIndicator();
             slidesContainer.style.transitionDuration = '2s';
-            console.log('Before Timeout' + indexSlide);
             slidesContainer.style.transform = `translateX(${ -(--indexSlide) * ( 100 / MAX ) }%)`;
             indexIndicator = indexSlide;
             activeIndicator();
-            console.log('After Timeout' + indexSlide);
         }, 60);
     } else  {
         slidesContainer.style.transitionDuration = '2s';
@@ -74,7 +68,6 @@ function slidingRight() {
 function slidingLeft() {
 
     if( isGoingLeft ) {
-        console.log('MAX - 1 L');
         indexSlide = 0;
         slidesContainer.style.transitionDuration = '0ms';
         slidesContainer.style.transform = `translateX(${ -indexSlide * ( 100 / MAX ) }%)`;
@@ -83,11 +76,9 @@ function slidingLeft() {
         setTimeout(() => {
             deactiveIndicator();
             slidesContainer.style.transitionDuration = '2s';
-            console.log('Before Timeout' + indexSlide);
             slidesContainer.style.transform = `translateX(${ -(++indexSlide) * ( 100 / MAX ) }%)`;
             indexIndicator = indexSlide;
             activeIndicator();
-            console.log('After Timeout' + indexSlide);
         }, 60);
     } else  {
         slidesContainer.style.transitionDuration = '2s';
@@ -281,7 +272,6 @@ showOrHideMenu();
 window.addEventListener('resize', showOrHideMenu);
 
 function goLeft() {
-    console.log('Links');
     deactiveIndicator();
 
     if( indexSlide === 0 || indexSlide === (MAX - 1) ) {
@@ -301,7 +291,6 @@ function goLeft() {
 }
 
 function goRight() {
-    console.log('Rechts');
     deactiveIndicator();
 
     if( indexSlide === 0 || indexSlide === (MAX - 1) ) {
@@ -340,17 +329,29 @@ function swipe() {
 
 let touchstartX = 0;
 let touchendX = 0;
-slidesContainer.addEventListener('touchstart',
-(e) => {
-    touchstartX = e.changedTouches[0].screenX;
+
+function getTouchstart(e) {
+        touchstartX = e.changedTouches[0].screenX;
 }
-);
 
-timeout2 = setTimeout(loop, 15000);
-
-slidesContainer.addEventListener('touchend',
-(e) => {
+function getTouchend(e) {
     touchendX = e.changedTouches[0].screenX;
     swipe();
 }
-);
+
+slidesContainer.addEventListener('touchstart', getTouchstart);
+slidesContainer.addEventListener('touchend', getTouchend);
+
+timeout2 = setTimeout(loop, 15000);
+
+window.addEventListener('scroll', () => {
+    if(window.scrollY) {
+        slidesContainer.removeEventListener('touchstart', getTouchstart);
+        slidesContainer.removeEventListener('touchend', getTouchend);
+    } else {
+        setTimeout(() => {
+            slidesContainer.addEventListener('touchstart', getTouchstart);
+            slidesContainer.addEventListener('touchend', getTouchend);
+        }, 1000);
+    }
+});
