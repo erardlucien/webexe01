@@ -349,9 +349,7 @@ window.addEventListener('scroll', () => {
         slidesContainer.removeEventListener('touchstart', getTouchstart);
         slidesContainer.removeEventListener('touchend', getTouchend);
     } else {
-        setTimeout(() => {
-            slidesContainer.addEventListener('touchstart', getTouchstart);
-            slidesContainer.addEventListener('touchend', getTouchend);
-        }, 1000);
+        slidesContainer.addEventListener('touchstart', getTouchstart);
+        slidesContainer.addEventListener('touchend', getTouchend);
     }
 });
