@@ -26,7 +26,6 @@ let indexIndicator = 0;
 let indexSlide = 0;
 let isGoingLeft = false;
 let isGoingRight = false;
-let isStopped = false;
 
 servicesLinks.classList.add('services-links-closed');
 subMenuContainer.classList.add('sub-menu-container-reduced');
@@ -229,7 +228,7 @@ navBtnKeysDown.forEach( (element) => {
 for(let i = 0; i < indicators.length; ++i) {
     indicators[i].addEventListener('click', () => {
         clearTimeout(timeout);
-        if(timeout2 !== undefined || timeout2 !== null) {
+        if(timeout2) {
             clearTimeout(timeout2);
         }
 
@@ -314,7 +313,7 @@ function goRight() {
 
 function swipe() {
     clearTimeout(timeout);
-    if(timeout2 !== undefined || timeout2 !== null) {
+    if(timeout2) {
         clearTimeout(timeout2);
     }
 
