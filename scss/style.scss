@@ -512,11 +512,11 @@ $arrow-size: 1.3rem;
 // swipe-area
 
 .swipe-area {
-    top: 35%;
+    top: 30%;
     left: 50%;
     @extend %set-center;
     width: 100%;
-    height: 20%;
+    height: 15%;
     color: $clr-neutral;
     background-color: $grey;
     opacity: 0;
