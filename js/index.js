@@ -12,6 +12,7 @@ let navSubLinks = document.querySelectorAll('.nav-sub-link');
 let navBtnKeysDown = document.querySelectorAll('.nav-btn-keysdown');
 /**@type {HTMLElement} */
 let slidesContainer = document.querySelector('.slides-container');
+// let indicatorsContainer = document.querySelector('.indicators-container');
 let indicators = document.querySelectorAll('.indicator');
 let slides = document.querySelectorAll('.slide');
 let internalLinks = document.querySelectorAll('.internal-link');
@@ -21,12 +22,17 @@ let swipeArea = document.querySelector('.swipe-area');
 let intervald = 15000;
 let timeout;
 let timeout2;
-const MAX = slides.length;
+const MAX = slides.length + 1;
 let indexIndicator = 0;
 let indexSlide = 0;
 let isGoingLeft = false;
 let isGoingRight = false;
 let isSwipeAreaDisplayed = true;
+
+slidesContainer.style.setProperty('--width', `${ (MAX * 100) }%`);
+slidesContainer.appendChild(slides[0].cloneNode(true));
+// indicatorsContainer.appendChild(indicators[0].cloneNode(true));
+// indicatorsContainer.lastChild.classList.add('hiddened');
 
 servicesLinks.classList.add('services-links-closed');
 subMenuContainer.classList.add('sub-menu-container-reduced');
