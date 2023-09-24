@@ -26,6 +26,7 @@ let indexIndicator = 0;
 let indexSlide = 0;
 let isGoingLeft = false;
 let isGoingRight = false;
+let isSwipeAreaDisplayed = true;
 
 servicesLinks.classList.add('services-links-closed');
 subMenuContainer.classList.add('sub-menu-container-reduced');
@@ -344,5 +345,24 @@ function getTouchend(e) {
 
 swipeArea.addEventListener('touchstart', getTouchstart);
 swipeArea.addEventListener('touchend', getTouchend);
+
+slides.forEach( (element) => {
+    element.addEventListener('click', () => {
+        isSwipeAreaDisplayed = !isSwipeAreaDisplayed;
+        if(!isSwipeAreaDisplayed) {
+            swipeArea.textContent = 'The swipe-area is now removed.';
+            swipeArea.classList.add('swipe-area-before-off');
+            setTimeout(() => {
+                swipeArea.classList.add('swipe-area-off');
+            }, 1000);
+        } else {
+            swipeArea.textContent = '<< swipe here >>';
+            swipeArea.classList.remove('swipe-area-off');
+            setTimeout(() => {
+                swipeArea.classList.remove('swipe-area-before-off');
+            }, 1000);
+        }
+    });
+});
 
 timeout2 = setTimeout(loop, 15000);

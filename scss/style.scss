@@ -512,7 +512,7 @@ $arrow-size: 1.3rem;
 // swipe-area
 
 .swipe-area {
-    top: 20%;
+    top: 40%;
     left: 50%;
     @extend %set-center;
     width: 100%;
@@ -526,6 +526,18 @@ $arrow-size: 1.3rem;
     white-space: nowrap;
     text-align: center;
     vertical-align: center;
+}
+
+// swipe-area-before-off
+
+.swipe-area-before-off {
+    opacity: 1;
+}
+
+// swipe-area-off
+
+.swipe-area-off {
+    display: none;
 }
 
  // sliding
