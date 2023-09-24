@@ -17,7 +17,7 @@ let slides = document.querySelectorAll('.slide');
 let internalLinks = document.querySelectorAll('.internal-link');
 let linkedElements = document.querySelectorAll('.linked-element');
 let topButton = document.querySelector('.top-button');
-let swiper = document.querySelector('.swiper');
+let swipeArea = document.querySelector('.swipe-area');
 let intervald = 15000;
 let timeout;
 let timeout2;
@@ -343,7 +343,7 @@ function getTouchend(e) {
     swipe();
 }
 
-swiper.addEventListener('touchstart', getTouchstart);
-swiper.addEventListener('touchend', getTouchend);
+swipeArea.addEventListener('touchstart', getTouchstart);
+swipeArea.addEventListener('touchend', getTouchend);
 
 timeout2 = setTimeout(loop, 15000);
