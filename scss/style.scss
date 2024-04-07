@@ -509,36 +509,6 @@ $arrow-size: 1.3rem;
     background-color: $clr-ternary;
 }
 
-// swipe-area
-
-.swipe-area {
-    top: 25%;
-    left: 50%;
-    @extend %set-center;
-    width: 100%;
-    height: 20%;
-    color: $clr-neutral;
-    background-color: $grey;
-    opacity: 0;
-    border: 0;
-    z-index: 1;
-    font-size: 2.1rem;
-    white-space: nowrap;
-    text-align: center;
-}
-
-// swipe-area-before-off
-
-.swipe-area-before-off {
-    opacity: 1;
-}
-
-// swipe-area-off
-
-.swipe-area-off {
-    display: none;
-}
-
  // sliding
 
  @keyframes sliding {

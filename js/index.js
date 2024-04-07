@@ -14,11 +14,11 @@ let navBtnKeysDown = document.querySelectorAll('.nav-btn-keysdown');
 let slidesContainer = document.querySelector('.slides-container');
 // let indicatorsContainer = document.querySelector('.indicators-container');
 let indicators = document.querySelectorAll('.indicator');
+let slider = document.querySelector('.slider');
 let slides = document.querySelectorAll('.slide');
 let internalLinks = document.querySelectorAll('.internal-link');
 let linkedElements = document.querySelectorAll('.linked-element');
 let topButton = document.querySelector('.top-button');
-let swipeArea = document.querySelector('.swipe-area');
 let intervald = 15000;
 let timeout;
 let timeout2;
@@ -27,7 +27,6 @@ let indexIndicator = 0;
 let indexSlide = 0;
 let isGoingLeft = false;
 let isGoingRight = false;
-let isSwipeAreaDisplayed = true;
 
 slidesContainer.style.setProperty('--width', `${ (MAX * 100) }%`);
 slidesContainer.appendChild(slides[0].cloneNode(true));
@@ -318,7 +317,7 @@ function goRight() {
 
 }
 
-function swipe() {
+function swipe(touchendX) {
     clearTimeout(timeout);
     if(timeout2) {
         clearTimeout(timeout2);
@@ -335,40 +334,21 @@ function swipe() {
     timeout2 = setTimeout(loop, 15000);
 }
 
-let touchstartX = 0;
-let touchendX = 0;
+let touchstartX = null;
 
 function getTouchstart(e) {
-    e.preventDefault();
-    touchstartX = e.changedTouches[0].screenX;
+    touchstartX = e.changedTouches[0].pageX;
 }
 
 function getTouchend(e) {
-    e.preventDefault();
-    touchendX = e.changedTouches[0].screenX;
-    swipe();
+    let touchendX = e.changedTouches[0].pageX;
+    if(Math.abs(touchstartX - touchendX) < 50) {
+        return;
+    }
+    swipe(touchendX);
 }
 
-swipeArea.addEventListener('touchstart', getTouchstart);
-swipeArea.addEventListener('touchend', getTouchend);
-
-slides.forEach( (element) => {
-    element.addEventListener('click', () => {
-        isSwipeAreaDisplayed = !isSwipeAreaDisplayed;
-        if(!isSwipeAreaDisplayed) {
-            swipeArea.textContent = 'The swipe-area is now removed.';
-            swipeArea.classList.add('swipe-area-before-off');
-            setTimeout(() => {
-                swipeArea.classList.add('swipe-area-off');
-            }, 1000);
-        } else {
-            swipeArea.textContent = '<< swipe here >>';
-            swipeArea.classList.remove('swipe-area-off');
-            setTimeout(() => {
-                swipeArea.classList.remove('swipe-area-before-off');
-            }, 1000);
-        }
-    });
-});
+slider.addEventListener('touchstart', getTouchstart, false);
+slider.addEventListener('touchend', getTouchend, false);
 
 timeout2 = setTimeout(loop, 15000);
