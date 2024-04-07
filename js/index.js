@@ -342,9 +342,12 @@ function getTouchstart(e) {
 
 function getTouchend(e) {
     let touchendX = e.changedTouches[0].pageX;
-    if(Math.abs(touchstartX - touchendX) < 50) {
+
+    // Prevent swipe
+    if(Math.abs(touchstartX - touchendX) < 100) {
         return;
     }
+    
     swipe(touchendX);
 }
 
