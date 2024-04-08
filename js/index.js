@@ -240,9 +240,14 @@ for(let i = 0; i < indicators.length; ++i) {
 
         deactiveIndicator();
 
-        indexIndicator = indexSlide = i;
-
-        animationLeft();
+        if(indexSlide === 0 && i === MAX - 2) {
+            goRight();
+        } else if(indexSlide === MAX - 2 && i === 0) {
+            goLeft();
+        } else {
+            indexIndicator = indexSlide = i;
+            animationLeft();
+        }
 
         timeout2 = setTimeout(loop, 15000);
     });
