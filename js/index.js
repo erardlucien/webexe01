@@ -61,13 +61,13 @@ function slidingRight() {
 
         setTimeout(() => {
             deactiveIndicator();
-            slidesContainer.style.transitionDuration = '2s';
+            slidesContainer.style.transitionDuration = '200ms';
             slidesContainer.style.transform = `translateX(${ -(--indexSlide) * ( 100 / MAX ) }%)`;
             indexIndicator = indexSlide;
             activeIndicator();
         }, 60);
     } else  {
-        slidesContainer.style.transitionDuration = '2s';
+        slidesContainer.style.transitionDuration = '200ms';
         slidesContainer.style.transform = `translateX(${ -indexSlide * ( 100 / MAX ) }%)`;
     }
 }
@@ -82,13 +82,13 @@ function slidingLeft() {
 
         setTimeout(() => {
             deactiveIndicator();
-            slidesContainer.style.transitionDuration = '2s';
+            slidesContainer.style.transitionDuration = '200ms';
             slidesContainer.style.transform = `translateX(${ -(++indexSlide) * ( 100 / MAX ) }%)`;
             indexIndicator = indexSlide;
             activeIndicator();
         }, 60);
     } else  {
-        slidesContainer.style.transitionDuration = '2s';
+        slidesContainer.style.transitionDuration = '200ms';
         slidesContainer.style.transform = `translateX(${ -indexSlide * ( 100 / MAX ) }%)`;
     }
 
