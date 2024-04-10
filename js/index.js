@@ -243,7 +243,7 @@ for(let i = 0; i < indicators.length; ++i) {
         if(indexSlide === 0 && i === MAX - 2) {
             goRight();
         } else if(indexSlide === MAX - 2 && i === 0) {
-            goLeft();
+            resetAtFirstSlide();
         } else {
             indexIndicator = indexSlide = i;
             animationLeft();
@@ -282,6 +282,22 @@ topButton.addEventListener('keydown', (event) => {
 
 showOrHideMenu();
 window.addEventListener('resize', showOrHideMenu);
+
+function resetAtFirstSlide() {
+    deactiveIndicator();
+    slidesContainer.style.transitionDuration = '200ms';
+    slidesContainer.style.transform = `translateX(${ -(++indexSlide) * ( 100 / MAX ) }%)`;
+    indexIndicator = 0;
+    activeIndicator();
+    
+
+    setTimeout(() => {
+        indexSlide = 0;
+        slidesContainer.style.transitionDuration = '0ms';
+        slidesContainer.style.transform = `translateX(${ -indexSlide * ( 100 / MAX ) }%)`;
+    }, 260);
+
+}
 
 function goLeft() {
     deactiveIndicator();
