@@ -482,6 +482,22 @@ $arrow-size: 1.3rem;
     }
 }
 
+.slide:nth-child(2) {
+    background-color: aliceblue;
+}
+
+.slide:nth-child(3) {
+    background-color: cornsilk;
+}
+
+.slide:nth-child(4) {
+    background-color: lightpink;
+}
+
+.slide:nth-child(5) {
+    background-color: lightcyan;
+}
+
 // indicators
 
 .indicators-container {
@@ -508,26 +524,6 @@ $arrow-size: 1.3rem;
 .indicator-actived {
     background-color: $clr-ternary;
 }
-
- // sliding
-
- @keyframes sliding {
-    0% {
-        transform: translateX(0%);
-    }
-
-    25% {
-        transform: translateX(-25%);
-    }
-
-    50% {
-        transform: translateX(-50%);
-    }
-
-    100% {
-        transform: translateX(-75%);
-    }
- }
 
  // hiddened
 

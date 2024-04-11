@@ -240,10 +240,16 @@ for(let i = 0; i < indicators.length; ++i) {
 
         deactiveIndicator();
 
-        if(indexSlide === 0 && i === MAX - 2) {
-            goRight();
+        if( ( indexSlide === 0 || indexSlide === MAX - 1) && i === MAX - 2 ) {
+            goToLastSlide();
+            indexIndicator = indexSlide = i;
+            setTimeout(animationLeft, 60);
         } else if(indexSlide === MAX - 2 && i === 0) {
-            resetAtFirstSlide();
+            setAtFirstSlide();
+        } else if(indexSlide === MAX - 1) {
+            goToFirstSlide();
+            indexIndicator = indexSlide = i;
+            setTimeout(animationLeft, 60);
         } else {
             indexIndicator = indexSlide = i;
             animationLeft();
@@ -283,7 +289,7 @@ topButton.addEventListener('keydown', (event) => {
 showOrHideMenu();
 window.addEventListener('resize', showOrHideMenu);
 
-function resetAtFirstSlide() {
+function setAtFirstSlide() {
     deactiveIndicator();
     slidesContainer.style.transitionDuration = '200ms';
     slidesContainer.style.transform = `translateX(${ -(++indexSlide) * ( 100 / MAX ) }%)`;
@@ -309,7 +315,7 @@ function goLeft() {
         return;
     }
 
-    if( indexSlide >= 0 && indexSlide < (MAX - 1) ){
+    if( indexSlide > 0 && indexSlide < (MAX - 1) ){
         ++indexIndicator;
         indexSlide = indexIndicator;
         animationLeft();
@@ -336,6 +342,16 @@ function goRight() {
         return;
     }
 
+}
+
+function goToFirstSlide() {
+    slidesContainer.style.transitionDuration = '0ms';
+    slidesContainer.style.transform = `translateX(0%)`;
+}
+
+function goToLastSlide() {
+    slidesContainer.style.transitionDuration = '0ms';
+    slidesContainer.style.transform = `translateX(${ -(MAX - 1) * ( 100 / MAX ) }%)`;
 }
 
 function swipe(touchendX) {
