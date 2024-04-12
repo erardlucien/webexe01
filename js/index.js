@@ -25,8 +25,8 @@ let timeout2;
 const MAX = slides.length + 1;
 let indexIndicator = 0;
 let indexSlide = 0;
-let isGoingLeft = false;
-let isGoingRight = false;
+let isMovingAtBegin = false;
+let isMovingAtEnd = false;
 
 slidesContainer.style.setProperty('--width', `${ (MAX * 100) }%`);
 slidesContainer.appendChild(slides[0].cloneNode(true));
@@ -51,13 +51,18 @@ function activeIndicator() {
     }
 }
 
-function slidingRight() {
+function defaultMovement() {
+    slidesContainer.style.transitionDuration = '200ms';
+    slidesContainer.style.transform = `translateX(${ -indexSlide * ( 100 / MAX ) }%)`;
+}
 
-    if( isGoingRight ) {
+function movingRight() {
+
+    if( isMovingAtEnd ) {
         indexSlide = MAX - 1;
         slidesContainer.style.transitionDuration = '0ms';
         slidesContainer.style.transform = `translateX(${ -indexSlide * ( 100 / MAX ) }%)`;
-        isGoingRight = false;
+        isMovingAtEnd = false;
 
         setTimeout(() => {
             deactiveIndicator();
@@ -67,18 +72,17 @@ function slidingRight() {
             activeIndicator();
         }, 60);
     } else  {
-        slidesContainer.style.transitionDuration = '200ms';
-        slidesContainer.style.transform = `translateX(${ -indexSlide * ( 100 / MAX ) }%)`;
+        defaultMovement();
     }
 }
 
-function slidingLeft() {
+function movingLeft() {
 
-    if( isGoingLeft ) {
+    if( isMovingAtBegin ) {
         indexSlide = 0;
         slidesContainer.style.transitionDuration = '0ms';
         slidesContainer.style.transform = `translateX(${ -indexSlide * ( 100 / MAX ) }%)`;
-        isGoingLeft = false;
+        isMovingAtBegin = false;
 
         setTimeout(() => {
             deactiveIndicator();
@@ -88,8 +92,7 @@ function slidingLeft() {
             activeIndicator();
         }, 60);
     } else  {
-        slidesContainer.style.transitionDuration = '200ms';
-        slidesContainer.style.transform = `translateX(${ -indexSlide * ( 100 / MAX ) }%)`;
+        defaultMovement();
     }
 
 }
@@ -102,19 +105,19 @@ function deactiveIndicator() {
     }
 }
 
-function animationLeft() {
-    slidingLeft();
+function moveLeft() {
+    movingLeft();
     activeIndicator();
 };
 
 
-function animationRight() {
-    slidingRight();
+function moveRight() {
+    movingRight();
     activeIndicator();
 };
 
 let loop = function incrementIndex() {
-    goLeft();
+    swipeLeft();
     timeout = setTimeout(incrementIndex, 15000);
 }
 
@@ -241,18 +244,18 @@ for(let i = 0; i < indicators.length; ++i) {
         deactiveIndicator();
 
         if( ( indexSlide === 0 || indexSlide === MAX - 1) && i === MAX - 2 ) {
-            goToLastSlide();
+            moveToLastSlide();
             indexIndicator = indexSlide = i;
-            setTimeout(animationLeft, 60);
+            setTimeout(moveLeft, 60);
         } else if(indexSlide === MAX - 2 && i === 0) {
             setAtFirstSlide();
         } else if(indexSlide === MAX - 1) {
-            goToFirstSlide();
+            moveToFirstSlide();
             indexIndicator = indexSlide = i;
-            setTimeout(animationLeft, 60);
+            setTimeout(moveLeft, 60);
         } else {
             indexIndicator = indexSlide = i;
-            animationLeft();
+            moveLeft();
         }
 
         timeout2 = setTimeout(loop, 15000);
@@ -305,12 +308,12 @@ function setAtFirstSlide() {
 
 }
 
-function goLeft() {
+function swipeLeft() {
     deactiveIndicator();
 
     if( indexSlide === 0 || indexSlide === (MAX - 1) ) {
-        isGoingLeft = true;
-        animationLeft();
+        isMovingAtBegin = true;
+        moveLeft();
         activeIndicator();
         return;
     }
@@ -318,18 +321,18 @@ function goLeft() {
     if( indexSlide > 0 && indexSlide < (MAX - 1) ){
         ++indexIndicator;
         indexSlide = indexIndicator;
-        animationLeft();
+        moveLeft();
         activeIndicator();
         return;
     }
 }
 
-function goRight() {
+function swipeRight() {
     deactiveIndicator();
 
     if( indexSlide === 0 || indexSlide === (MAX - 1) ) {
-        isGoingRight = true;
-        animationRight();
+        isMovingAtEnd = true;
+        moveRight();
         activeIndicator();
         return;
     }
@@ -337,19 +340,19 @@ function goRight() {
     if( indexSlide > 0 && indexSlide < (MAX - 1) ) {
         --indexIndicator;
         indexSlide = indexIndicator;
-        animationRight();
+        moveRight();
         activeIndicator();
         return;
     }
 
 }
 
-function goToFirstSlide() {
+function moveToFirstSlide() {
     slidesContainer.style.transitionDuration = '0ms';
     slidesContainer.style.transform = `translateX(0%)`;
 }
 
-function goToLastSlide() {
+function moveToLastSlide() {
     slidesContainer.style.transitionDuration = '0ms';
     slidesContainer.style.transform = `translateX(${ -(MAX - 1) * ( 100 / MAX ) }%)`;
 }
@@ -361,11 +364,11 @@ function swipe(touchendX) {
     }
 
     if(touchendX < touchstartX) {
-        goLeft();
+        swipeLeft();
     }
 
     if(touchendX > touchstartX) {
-        goRight();
+        swipeRight();
     }
 
     timeout2 = setTimeout(loop, 15000);
