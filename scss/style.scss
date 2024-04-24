@@ -203,18 +203,18 @@ $arrow-size: 1.3rem;
     transform: rotate(90deg);
 
     [class |= 'line']:not(.line-2) {
-        width: 40%;
+        width: 30%;
     }
 
     .line-1 {
-        top: 39.5%;
-        left: 80%;
+        top: 43%;
+        left: 81%;
         transform: translate(-50%, -50%) rotate(45deg);
     }
 
     .line-3 {
-        top: 60.5%;
-        left: 80%;
+        top: 57%;
+        left: 81%;
         transform: translate(-50%, -50%) rotate(-45deg);
     }
 }
